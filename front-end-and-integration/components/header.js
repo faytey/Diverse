@@ -96,7 +96,7 @@ export default function Header(){
       <div className="ml-[2cm]" style={{display:"inline-block"}}>
         {connectWallet ? (<span className="bg-[#001] px-[0.5cm] py-[0.2cm] font-[600] rounded-full cursor-pointer connectwalletbutton" style={{border:"2px solid #fff"}} onClick={(e) => connecttheWallet(e)}>Connect wallet</span>) : (<div></div>)}
         {connectedWallet ? (<span className="bg-[#003] px-[0.5cm] py-[0.2cm] font-[600] rounded-full cursor-pointer disconnectwalletbutton" style={{border:"2px solid #502"}} onClick={(e) => disconnectWallet(e)}><i className="fa fa-circle text-[80%] text-[#060]"></i> &nbsp; Connected &nbsp; 0x652D9xac...</span>) : (<div></div>)}
-        </div>
+      </div>
       </div>
 
       <div className='w-[100%] headerdivforsmallandmedium' style={{position:"fixed", zIndex:"9999"}}>
@@ -126,7 +126,11 @@ export default function Header(){
        <Link href="/" onClick={(e) => changemenubehaviour2(e)}><div className='py-[0.5cm] menuitems4' style={{borderBottom:"3px solid #000"}}>Community <img src="images/community.png" width="25" className='ml-[0.2cm]' style={{display:"inline-block"}}/></div></Link>
        <Link href="/" onClick={(e) => changemenubehaviour2(e)}><div className='py-[0.5cm] menuitems4' style={{borderBottom:"3px solid #000"}}>Developers <img src="images/developers.png" width="25" className='ml-[0.2cm]' style={{display:"inline-block"}}/></div></Link>
        <Link href="/" onClick={(e) => changemenubehaviour2(e)}><div className='py-[0.5cm] menuitems4' style={{borderBottom:"3px solid #000"}}>Blog <img src="images/blog.png" width="25" className='ml-[0.2cm]' style={{display:"inline-block"}}/></div></Link>
-       <div className='mt-[2cm]' style={{display:"block"}}>
+       <div className="text-center pt-[1cm]">
+        {connectWallet ? (<span className="bg-[#001] px-[0.5cm] py-[0.2cm] font-[600] rounded-full cursor-pointer connectwalletbutton" style={{border:"2px solid #fff"}} onClick={(e) => connecttheWallet(e)}>Connect wallet</span>) : (<div></div>)}
+        {connectedWallet ? (<span className="bg-[#003] px-[0.5cm] py-[0.2cm] font-[600] rounded-full cursor-pointer disconnectwalletbutton" style={{border:"2px solid #502"}} onClick={(e) => disconnectWallet(e)}><i className="fa fa-circle text-[80%] text-[#060]"></i> &nbsp; Connected &nbsp; 0x652D9xac...</span>) : (<div></div>)}
+      </div>
+       <div className='mt-[1cm]' style={{display:"block"}}>
        <Link href="/" onClick={(e) => changemenubehaviour2(e)}><img src="images/logo.png" width="80" style={{display:"inline-block"}}/></Link>
        <Link href="/" onClick={(e) => changemenubehaviour2(e)}><img src="images/starknet.png" width="40" className='ml-[0.5cm]' style={{display:"inline-block"}}/></Link>
        </div>
