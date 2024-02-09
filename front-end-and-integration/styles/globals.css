@@ -2,26 +2,46 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+body{background-color: #eee;}
+
+@media screen and (max-width:1007px) {
+    .headerdivforlarge{display: none;} 
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+@media screen and (min-width:1007px) {
+    .headerdivforsmallandmedium{display: none;}
+}
+
+  .menuitems{transition: 0.3s ease-in-out;}
+  .menuitems:hover{transform:scale3d(1.1,1.1,1.1)}
+
+  .menuitems2{transition: 0.3s ease-in-out;}
+  .menuitems2:hover{transform:scale3d(1.05,1.05,1.05)}
+
+  .menuitems3{transition: 0.3s ease-in-out;cursor: pointer;}
+  .menuitems3:hover{font-size: 110%;}
+
+  .menuitems4{transition: 0.3s ease-in-out;cursor: pointer;}
+  .menuitems4:hover{font-size: 120%;}
+
+   button{transition: 0.3s ease-in-out;}
+  .generalbutton{transition: 0.3s ease-in-out;}
+  .generalbutton:hover{background-color: #070;}
+  .secondbutton:hover{background-color: #040;}
+
+  @media screen and (min-width:1007px) {
+    .admindashboard{background-size: 100%;}  
   }
-}
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-}
+  @media screen and (max-width:1007px) {
+    .admindashboard{background-position-x: 70%; background-position-y: 10%;}  
+  }
+
+  @keyframes loadingAnimation {0%{transform: translate3d(-50%, 0,0);} 100%{transform: translate3d(50%, 0,0);}}
+  .loadingimage{animation: loadingAnimation 1s alternate infinite;}
+
+  .connectwalletbutton{transition: 0.3s ease-in-out;}
+  .connectwalletbutton:hover{background: #003;}
+
+  .disconnectwalletbutton{transition: 0.3s ease-in-out;}
+  .disconnectwalletbutton:hover{background-color: #001;}
