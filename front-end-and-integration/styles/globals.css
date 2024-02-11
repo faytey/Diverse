@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-body{background-color: #eee;}
+body{background-color: #000;color: #fff;}
 
 @media screen and (max-width:1007px) {
     .headerdivforlarge{display: none;} 
@@ -27,7 +27,12 @@ body{background-color: #eee;}
    button{transition: 0.3s ease-in-out;}
   .generalbutton{transition: 0.3s ease-in-out;}
   .generalbutton:hover{background-color: #070;}
-  .secondbutton:hover{background-color: #040;}
+  .generalbutton2{transition: 0.3s ease-in-out;}
+  .generalbutton2:hover{background-color: #040;}
+  .generalbutton3{transition: 0.3s ease-in-out;}
+  .generalbutton3:hover{background-color: #602; transform: scale3d(0.95,0.95,0.95);}
+  .ecobutton:hover + .docbutton + .githubbutton{filter: blur(3px);}
+  .ecobutton:hover + .docbutton{filter: blur(3px);}
 
   @media screen and (min-width:1007px) {
     .admindashboard{background-size: 100%;}  

@@ -67,7 +67,7 @@ export default function Header(){
     return (
       <div>
 
-      <div className='text-center w-[100%] py-[0.3cm] text-[#fff] bg-[#000] headerdivforlarge' style={{boxShadow:"-1px 1px 1px 1px rgba(0,0,0,0.2)", zIndex:"9999", position:"fixed"}}>
+      <div className='text-center w-[100%] py-[0.3cm] text-[#fff] bg-[rgba(0,0,0,0.97)] headerdivforlarge' style={{boxShadow:"-1px 1px 1px 1px rgba(0,0,0,0.2)", zIndex:"9999", position:"fixed"}}>
       <Link href="/"><img src="images/logo.png" width="80" style={{display:"inline-block"}} alt="logo" /></Link>
       <div className='ml-[2cm]' style={{display:"inline-block"}}>
       {EcosystemButton ? (<button onClick={(e) => changeEcosystemButton(e)} className='ml-[1cm] menuitems'><span>Ecosystem</span><i className='fa fa-caret-down ml-[0.2cm]'></i></button>) : 

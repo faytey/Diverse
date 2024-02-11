@@ -12,7 +12,7 @@ export default function Footer () {
       </div>
       <form>
       <input type="email" className="outline-none w-[100%] placeholder-[#555] text-[#000] p-[0.3cm] rounded-md" placeholder='Please input your email address' />
-      <button type="submit" className="px-[0.4cm] py-[0.2cm] bg-[#020] w-[100%] mt-[0.3cm] secondbutton text-[#fff] rounded-md">Subscribe</button>
+      <button type="submit" className="px-[0.4cm] py-[0.2cm] bg-[#020] w-[100%] mt-[0.3cm] generalbutton2 text-[#fff] rounded-md">Subscribe</button>
       </form>
     </div>
     <div className='grid-cols-1 m-[auto]'>
