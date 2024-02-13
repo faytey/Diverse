@@ -35,7 +35,7 @@ mod Swapp {
             assert(hasSufficient, 'insufficient balance');
             let hasSufficientAllowance = _confirmAllowance(get_caller_address(), spendToken, amount);
             assert(hasSufficientAllowance, 'insufficient Allowance');
-            totalTransaction: u256 = self.allTransactions.read() + 1;
+            let totalTransaction: u256 = self.allTransactions.read() + 1;
             self.allTransactions.write(totalTransaction);
 
             let newRecord = exchangeRecord {
@@ -43,18 +43,18 @@ mod Swapp {
                 fromToken: spendToken,
                 toToken: receiveToken,
                 exchangeAmount: amount,
-            }
+            };
 
             let mut userTransactions = self.userTransactions.read(get_caller_address());
             userTransactions.append(totalTransaction);
             self.userTransactions.write(get_caller_address(), userTransactions);
-            self.transactionsData.write(totalTransaction, [newRecord]);
+            self.transactionsData.write(totalTransaction, newRecord);
             return true;
         }
 
         fn swapMultipleToken(self: @TContractState, spendTokens: Array::<ContractAddress>, spendAmount: Array::<u256>, receiveToken: ContractAddress) -> bool {
             assert( spendTokens.length == spendAmount.length(), 'ERROR: Tokens and amount length mismatch');
-            totalTransaction: u256 = self.allTransactions.read() + 1;
+            let totalTransaction: u256 = self.allTransactions.read() + 1;
             self.allTransactions.write(totalTransaction);
             let batchTransactions: Array<exchangeRecord> = ArrayTrait::new();
             let mut i: u256 = 0;
@@ -73,13 +73,13 @@ mod Swapp {
                     fromToken: spendToken[i],
                     toToken: receiveToken,
                     exchangeAmount: amount[i],
-                }
+                };
 
                 batchTransactions.append(newRecord);
                 i = i + 1;
             }
 
-            totalTransaction: u256 = self.allTransactions.read() + 1;
+            let totalTransaction: u256 = self.allTransactions.read() + 1;
             self.allTransactions.write(totalTransaction);
 
             let mut userTransactions = self.userTransactions.read(get_caller_address());

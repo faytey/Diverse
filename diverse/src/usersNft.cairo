@@ -155,7 +155,7 @@ mod ERC721 {
 
         fn mint(ref self: ContractState, to: ContractAddress, token_id: u256, tokenUri: felt252) {
             assert(to.is_non_zero(), 'to is zero address');
-            assert(get_caller_address() === self.moderator.read(), 'ERROR: not a valid caller');
+            assert(get_caller_address() == self.moderator.read(), 'ERROR: not a valid caller');
 
             let receiver_balance = self.balances.read(to);
             self.balances.write(to, receiver_balance + 1.into());

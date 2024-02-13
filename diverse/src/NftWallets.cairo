@@ -1,4 +1,4 @@
-use starknet::{class_hash, class_hash_to_felt252, ContractAddress}
+use starknet::{class_hash, class_hash_to_felt252, ContractAddress};
 
 struct walletData {
     walletId: u256,
@@ -15,14 +15,14 @@ trait INftWallet<TContractState> {
     fn get_balance(self: @TContractState) -> felt252;
     fn create_wallet(ref self: TContractState, tokenUri: felt252) -> ContractAddress;
     fn get_user_Wallets(self: @TContractState, user: ContractAddress) -> Array<u256>;
-    fn get_walletDetails(self @TContractState, walletId: u256) -> walletData;
+    fn get_walletDetails(self: @TContractState, walletId: u256) -> walletData;
     fn transfer_wallet(ref self: TContractState,  walletID: u256, receiver: ContractAddress);
 }
 
 #[starknet::contract]
 mod NftWallet {
     use diverse::interfaces::IERC721::{IERC721DispatcherTrait, IERC721Dispatcher};
-    use diverse::interfaces::IRegistry::{IRegistryTrait, IRegistryDispatcher}
+    use diverse::interfaces::IRegistry::{IRegistryTrait, IRegistryDispatcher};
     use super::{class_hash, walletData};
     use starknet::{get_caller_address, get_contract_address, info::get_block_timestamp, ArrayTrait, ContractAddress};
     use zeroable::Zeroable;
@@ -33,11 +33,11 @@ mod NftWallet {
         acct_class_hash: felt252,
         registryContract: IRegistryDispatcher,
         total_accounts: u256,
-        users_accounts: LegacyMap<ContractAddress, Array<u256>>.
+        users_accounts: LegacyMap<ContractAddress, Array<u256>>,
         walletData: LegacyMap<u256, walletData>,
         user_account_count: LegacyMap<ContractAddress, u256>,
         NftContract: IERC721Dispatcher,
-        moderator: ContractAddress;
+        moderator: ContractAddress,
     }
 
 
@@ -72,7 +72,7 @@ mod NftWallet {
             return userAccounts;
         }
 
-        fn get_walletDetails(self @TContractState, walletId: u256) -> walletData {
+        fn get_walletDetails(self: @TContractState, walletId: u256) -> walletData {
             assert (walletId <= self.total_accounts.read(), 'ERROR: Invalid walletId');
             let walletDetails = self.walletData.read(walletId);
             return walletDetails;
@@ -90,8 +90,8 @@ mod NftWallet {
                 creationTime: get_block_timestamp(),
                 creatorAddress: user,
                 current_owner: user,
-                allOwners: [],
-            }
+                allOwners: array![],
+            };
             self.walletData.write(self.total_accounts.read(), newWallet);
             let mut usersAccounts = self.users_accounts.read(user);
             usersAccounts.append(self.total_accounts.read());
