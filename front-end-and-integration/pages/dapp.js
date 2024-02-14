@@ -66,7 +66,7 @@ const handleChange = (event) => {
    <div className='bg-[#002]'>
    <Header />
    <div>
-   <img src="images/bg7.jpg" className='w-[100%] lg:h-[35cm] h-[30cm]' style={{position:"absolute", filter:"blur(3px)"}} />
+   {/* <img src="images/bg7.jpg" className='w-[100%] lg:h-[35cm] h-[30cm]' style={{position:"absolute", filter:"blur(3px)"}} /> */}
    <img src="images/starknet.png" width="100" className='lg:mt-[10%] mt-[20%] ml-[5%] blurimage1' style={{position:"absolute"}} />
    <img src="images/starknet.png" width="100" className='lg:mt-[15%] mt-[25%] lg:ml-[85%] ml-[70%] blurimage2' style={{position:"absolute"}} />
    <img src="images/logo.png" width="100" className='lg:mt-[35%] mt-[100%] ml-[8%] blurimage2' style={{position:"absolute"}} />
@@ -75,7 +75,7 @@ const handleChange = (event) => {
 
 <div className='lg:px-[30%] md:px-[25%] p-[5%]'>
 {swapOption ? 
-(<div className='bg-[#000] p-[1cm] rounded-xl dAppdivs'>
+(<div className='bg-[#111] p-[1cm] rounded-xl dAppdivs'>
 <div className='p-[0.5cm] pb-[1cm] bg-[#eee] rounded-xl'>
 <div className='text-[#555] font-[500]'><span>You Pay</span><span className='float-right text-[#02f]'>Max</span></div>
 <div className='mt-[0.5cm] clear-both' style={{display:"block"}}>
