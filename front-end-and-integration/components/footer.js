@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Footer () {
     return (
         <div>
@@ -17,11 +19,11 @@ export default function Footer () {
     </div>
     <div className='grid-cols-1 m-[auto]'>
       <div className='text-[120%] text-[#fff] mb-[0.2cm] font-[500]'>Join us on social media</div>
-      <img src="images/telegram.png" width="40" className='m-[0.2cm]' style={{display:"inline-block"}} />
-      <img src="images/twitter.png" width="40" className='m-[0.2cm]' style={{display:"inline-block"}} />
-      <img src="images/linkedin.png" width="40" className='m-[0.2cm]' style={{display:"inline-block"}} />
-      <img src="images/youtube.png" width="40" className='m-[0.2cm]' style={{display:"inline-block"}} />
-      <img src="images/discord.png" width="40" className='m-[0.2cm]' style={{display:"inline-block"}} />
+      <Link href="https://telegram.org"><img src="images/telegram.png" width="40" className='m-[0.2cm]' style={{display:"inline-block"}} /></Link>
+      <Link href="https://twitter.com"><img src="images/twitter.png" width="40" className='m-[0.2cm]' style={{display:"inline-block"}} /></Link>
+      <Link href="https://linkedin.com"><img src="images/linkedin.png" width="40" className='m-[0.2cm]' style={{display:"inline-block"}} /></Link>
+      <Link href="https://youtube.com"><img src="images/youtube.png" width="40" className='m-[0.2cm]' style={{display:"inline-block"}} /></Link>
+      <Link href="https://discord.com"><img src="images/discord.png" width="40" className='m-[0.2cm]' style={{display:"inline-block"}} /></Link>
     </div>
     </div>
     <div className='mb-[1cm]' style={{borderBottom:"1px solid #fff"}}></div>
