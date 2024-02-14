@@ -11,7 +11,11 @@ trait ISwapp<TContractState> {
 
 #[starknet::contract]
 mod Swapp {
+<<<<<<< HEAD
     use starknet::{get_caller_address, get_contract_address, info::get_block_timestamp, ArrayTrait, ContractAddress,};
+=======
+    use starknet::{get_caller_address, get_contract_address, info::get_block_timestamp, ArrayTrait, ContractAddress};
+>>>>>>> 242d6ebce3fd37a728aae4b782a6348f78c32420
     use diverse::interfaces::IERC20::{IERC20Dispatcher, IERC20DispatcherTrait};
 
     #[storage]
