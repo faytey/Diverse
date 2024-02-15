@@ -1,20 +1,6 @@
 use starknet::{ClassHash, class_hash_to_felt252, ContractAddress};
 use core::array::ArrayTrait;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #[derive(Drop, Serde, starknet::Store)]
 struct walletData {
     walletId: u256,
@@ -22,22 +8,13 @@ struct walletData {
     creationTime: u256,
     creatorAddress: ContractAddress,
     current_owner: ContractAddress,
-    allOwners: Array<ContractAddress>,
+    totalOwners: u256,
+    allOwners: LegacyMap<u256, ContractAddress>,
+    // allOwners: Array<ContractAddress>,
 }
 
-
-
-
-
-
-
-
-
-
-
-
 #[starknet::interface]
-trait INftWallet<TContractState> {
+trait INftWalletTwo<TContractState> {
     fn create_wallet(ref self: TContractState, tokenUri: felt252) -> ContractAddress;
     fn get_user_Wallets(self: @TContractState, user: ContractAddress) -> Array<u256>;
     fn get_walletDetails(self: @TContractState, walletId: u256) -> walletData;
@@ -45,12 +22,9 @@ trait INftWallet<TContractState> {
 }
 
 #[starknet::contract]
-mod NftWallet {
+mod NftWalletTwo {
     use diverse::IRegistry::{IRegistryDispatcherTrait, IRegistryDispatcher};
-
     use super::{ClassHash, walletData};
-
-
     use diverse::IERC721::{IERC721DispatcherTrait, IERC721Dispatcher};
     use starknet::{get_caller_address, get_contract_address, info::get_block_timestamp, ContractAddress, Zeroable};
     use core::option::OptionTrait;
@@ -70,7 +44,6 @@ mod NftWallet {
         moderator: ContractAddress,
     }
 
-
     #[constructor]
     fn constructor(ref self: ContractState, registryContract: ContractAddress, account_hash: ClassHash, NftContract: ContractAddress) {
         self.moderator.write(get_caller_address());
@@ -80,8 +53,7 @@ mod NftWallet {
     }
 
     #[abi(embed_v0)]
-    impl NftWalletImpl of super::INftWallet<ContractState> {
-
+    impl NftWalletTwo of super::INftWalletTwo<ContractState> {
         fn create_wallet(ref self: ContractState, tokenUri: felt252) -> ContractAddress {
             self.NftContract.read().mint(get_caller_address(), self.total_accounts.read(), tokenUri);
             let wallet_address = self.registryContract.read().create_account(self.acct_class_hash.read(), self.NftContract.read().contract_address, self.total_accounts.read(), self.user_account_count.read(get_caller_address()).TryInto());
@@ -107,8 +79,6 @@ mod NftWallet {
             let walletDetails = self.walletDataRec.read(walletId);
             return walletDetails;
         }
-
-        
     }
 
     #[generate_trait]
@@ -120,7 +90,7 @@ mod NftWallet {
                 creationTime: get_block_timestamp().into(),
                 creatorAddress: user,
                 current_owner: user,
-                allOwners: ArrayTrait::new(),
+                // allOwners: ArrayTrait::new(),
             };
             self.walletDataRec.write(self.total_accounts.read(), newWallet);
             let mut usersAccounts = self.users_accounts.read(user);
@@ -133,9 +103,9 @@ mod NftWallet {
         fn after_transfer(ref self: ContractState, prevOwner: ContractAddress, newOwner: ContractAddress, walletID: u256) {
             let mut walletData = self.walletDataRec.read(walletID);
             walletData.current_owner = newOwner;
-            walletData.allOwners.append(prevOwner);
+            // walletData.allOwners.append(prevOwner);
             self.walletDataRec.write(walletID, walletData);
-            self.update_users_wallets(prevOwner, walletID);
+            // self.update_users_wallets(prevOwner, walletID);
             let mut userAccounts = self.users_accounts.read(newOwner);
             userAccounts.append(walletID);
             self.users_accounts.write(newOwner, userAccounts);
@@ -171,5 +141,8 @@ mod NftWallet {
             };
             return (found, index);
         }
+
     }
+
+
 }
