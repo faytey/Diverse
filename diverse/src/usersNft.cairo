@@ -24,13 +24,10 @@ trait IERC721<TContractState> {
 
 #[starknet::contract]
 mod ERC721 {
-    use starknet::ContractAddress;
-    use starknet::get_caller_address;
-    use zeroable::Zeroable;
     use starknet::contract_address_to_felt252;
-    use traits::Into;
-    use traits::TryInto;
-    use option::OptionTrait;
+    use starknet::{get_caller_address, get_contract_address, info::get_block_timestamp, ContractAddress, Zeroable};
+    use core::option::OptionTrait;
+    use core::traits::{TryInto, Into};
 
     #[storage]
     struct Storage {
@@ -80,7 +77,7 @@ mod ERC721 {
         self.moderator.write(_moderator);
     }
 
-    #[external(v0)]
+   #[abi(embed_v0)]
     impl ERC721Impl of super::IERC721<ContractState> {
         fn name(self: @ContractState) -> felt252 {
             self.name.read()
