@@ -14,25 +14,14 @@ export default function DApp(){
     AOS.init();
   }, [])
 
-  const [values, setValues] = useState({
-    usdtamount:"",
-    bnbamount:""
-})
 
 const [amount, setamount] = useState()
 const parsedamount = parseFloat(amount)
 const equivUSD = isNaN(parsedamount) ? 0 : (parsedamount).toFixed(2);
 const equivDVS1 = isNaN(parsedamount) ? 0 : (parsedamount) * 1000;
 const equivDVS2 = isNaN(parsedamount) ? 0 : ((parsedamount) * 1000).toFixed(2);
-
-const parsedbnbamount = parseFloat(values.bnbamount)
-const equivBNBtoUSD = (isNaN(parsedbnbamount) ? 0 : (((parsedbnbamount).toFixed(2)) * 302.2));
-const equivUSDBNB = (equivBNBtoUSD - (equivBNBtoUSD * 0.005))
-const equivUSDBNB2 = (equivBNBtoUSD - (equivBNBtoUSD * 0.005)).toFixed(2)
-const equivUSDreceived3 = (equivBNBtoUSD - (equivBNBtoUSD * 0.007)).toFixed(6)
-const equivUSDreceived4 = (equivBNBtoUSD - (equivBNBtoUSD * 0.00698)).toFixed(2)
-const providerfee1 = (equivBNBtoUSD * 0.00684).toFixed(6)
-const providerfee2 = (equivBNBtoUSD * 0.00685).toFixed(2)
+const providerfee1 = (equivUSD * 0.00684).toFixed(6)
+const providerfee2 = (equivUSD * 0.00685).toFixed(2)
 
   const [swapOption, setSwapOption] = useState(true)
   const changeSwapOption = () => {
