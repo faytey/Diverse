@@ -157,7 +157,7 @@ mod ERC721 {
             let receiver_balance = self.balances.read(to);
             self.balances.write(to, receiver_balance + 1.into());
             self.owners.write(token_id, to);
-            self._set_token_uri(token_id, token_uri);
+            self._set_token_uri(token_id, tokenUri);
             self.emit(Transfer { from: Zeroable::zero(), to: to, token_id: token_id });
         }
     }

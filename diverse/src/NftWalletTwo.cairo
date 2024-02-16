@@ -1,4 +1,5 @@
 use starknet::{ClassHash, class_hash_to_felt252, ContractAddress};
+use core::dict::Felt252DictEntryTrait;
 use core::array::ArrayTrait;
 
 #[derive(Drop, Serde, starknet::Store)]
@@ -8,9 +9,6 @@ struct walletData {
     creationTime: u256,
     creatorAddress: ContractAddress,
     current_owner: ContractAddress,
-    totalOwners: u256,
-    allOwners: LegacyMap<u256, ContractAddress>,
-    // allOwners: Array<ContractAddress>,
 }
 
 #[starknet::interface]
@@ -23,7 +21,8 @@ trait INftWalletTwo<TContractState> {
 
 #[starknet::contract]
 mod NftWalletTwo {
-    use diverse::IRegistry::{IRegistryDispatcherTrait, IRegistryDispatcher};
+    use core::traits::Into;
+use diverse::IRegistry::{IRegistryDispatcherTrait, IRegistryDispatcher};
     use super::{ClassHash, walletData};
     use diverse::IERC721::{IERC721DispatcherTrait, IERC721Dispatcher};
     use starknet::{get_caller_address, get_contract_address, info::get_block_timestamp, ContractAddress, Zeroable};
@@ -37,11 +36,15 @@ mod NftWalletTwo {
         acct_class_hash: felt252,
         registryContract: IRegistryDispatcher,
         total_accounts: u256,
-        users_accounts: LegacyMap<ContractAddress, Array<u256>>,
+        // users_accounts: LegacyMap<ContractAddress, Array<u256>>,
+        users_accounts: LegacyMap<ContractAddress, u256>,
+        user_acc_Id: LegacyMap<u256, u256>,
         walletDataRec: LegacyMap<u256, walletData>,
         user_account_count: LegacyMap<ContractAddress, u256>,
         NftContract: IERC721Dispatcher,
         moderator: ContractAddress,
+        NftTotalOwner: LegacyMap<u256, u256>,
+        allOwners: LegacyMap<u256, ContractAddress>,
     }
 
     #[constructor]
@@ -56,7 +59,11 @@ mod NftWalletTwo {
     impl NftWalletTwo of super::INftWalletTwo<ContractState> {
         fn create_wallet(ref self: ContractState, tokenUri: felt252) -> ContractAddress {
             self.NftContract.read().mint(get_caller_address(), self.total_accounts.read(), tokenUri);
-            let wallet_address = self.registryContract.read().create_account(self.acct_class_hash.read(), self.NftContract.read().contract_address, self.total_accounts.read(), self.user_account_count.read(get_caller_address()).TryInto());
+            let wallet_address = self.registryContract.read()
+                .create_account(self.acct_class_hash.read(),
+                                self.NftContract.read().contract_address, 
+                                self.total_accounts.read(), 
+                                self.user_account_count.read(get_caller_address()).try_into().unwrap());
             self.update_storage(get_caller_address(), wallet_address);
             return wallet_address;
         }
@@ -70,7 +77,17 @@ mod NftWalletTwo {
 
         fn get_user_Wallets(self: @ContractState, user: ContractAddress) -> Array<u256> {
             assert(user.is_non_zero(), 'ERROR: address zero user');
-            let userAccounts = self.users_accounts.read(user);
+            let mut userAccounts = ArrayTrait::new();
+            let totalAccounts = self.users_accounts.read(user);
+            let mut i = 1;
+            loop {
+                if i > totalAccounts {
+                    break;
+                }
+                let newWallet = self.user_acc_Id.read(i);
+                userAccounts.append(newWallet);
+                i += 1;
+            };
             return userAccounts;
         }
 
@@ -93,9 +110,8 @@ mod NftWalletTwo {
                 // allOwners: ArrayTrait::new(),
             };
             self.walletDataRec.write(self.total_accounts.read(), newWallet);
-            let mut usersAccounts = self.users_accounts.read(user);
-            usersAccounts.append(self.total_accounts.read());
-            self.users_accounts.write(user, usersAccounts);
+            self.users_accounts.write(user, self.users_accounts.read(user) + 1);
+            self.user_acc_Id.write(self.users_accounts.read(user), self.total_accounts.read());
             self.total_accounts.write(self.total_accounts.read() + 1);
             self.user_account_count.write(user, self.user_account_count.read(user) + 1);
         }
@@ -103,35 +119,36 @@ mod NftWalletTwo {
         fn after_transfer(ref self: ContractState, prevOwner: ContractAddress, newOwner: ContractAddress, walletID: u256) {
             let mut walletData = self.walletDataRec.read(walletID);
             walletData.current_owner = newOwner;
-            // walletData.allOwners.append(prevOwner);
             self.walletDataRec.write(walletID, walletData);
-            // self.update_users_wallets(prevOwner, walletID);
-            let mut userAccounts = self.users_accounts.read(newOwner);
-            userAccounts.append(walletID);
-            self.users_accounts.write(newOwner, userAccounts);
+            self.NftTotalOwner.write(walletID, self.NftTotalOwner.read(walletID) + 1);
+            self.allOwners.write(self.NftTotalOwner.read(walletID), prevOwner);
+            self.update_users_wallets(prevOwner, walletID);
+            self.users_accounts.write(prevOwner, self.users_accounts.read(newOwner) + 1);
+            self.user_acc_Id.write(self.users_accounts.read(prevOwner), walletID);
+            self.user_account_count.write(newOwner, self.user_account_count.read(newOwner) + 1);
         }
 
         fn update_users_wallets (ref self: ContractState, user: ContractAddress, walletID: u256) {
-            let mut userAccounts = self.users_accounts.read(user);
-            let (found, index) = self.findIndex(userAccounts, walletID);
-            assert(found, 'ERROR: index not found in prevOwner');
-            userAccounts[index] = userAccounts[0];
+            let (found, index) = self.findIndex(user, walletID);
+            assert(found, 'ERROR:PrevOwner index not found');
 
-            // confirm pop or popfront.
-            let previous = userAccounts.pop_front();
-
-            self.users_accounts.write(user, userAccounts);
+            let userAccCount = self.users_accounts.read(user);
+            let lastAccount = self.user_acc_Id.read(userAccCount);
+            self.users_accounts.write(user, self.users_accounts.read(user) - 1);
+            self.user_acc_Id.write(index, lastAccount);
         }
 
-        fn findIndex (self: ContractState, dataArray: Array<u256>, data: u256) -> (bool, u32) {
-            let mut i: u32 = 0;
+        fn findIndex (self: @ContractState, user: ContractAddress, walletID: u256) -> (bool, u256) {
+            let accCount = self.users_accounts.read(user);
+
+            let mut i: u256 = 1;
             let mut found = false;
             let mut index = 0;
             loop {
-                if (i >= dataArray.len() ) {
+                if (i > accCount ) {
                     break;
                 }
-                if (dataArray[i] == data) {
+                if (self.user_acc_Id.read(i) == walletID) {
                     found = true;
                     index = i;
                     break;
