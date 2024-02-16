@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-use starknet::{class_hash, class_hash_to_felt252}
-=======
 use starknet::{class_hash, class_hash_to_felt252, ContractAddress}
 
 struct walletData {
@@ -11,53 +8,29 @@ struct walletData {
     current_owner: u256,
     allOwners: Array<ContractAddress>
 }
->>>>>>> 242d6ebce3fd37a728aae4b782a6348f78c32420
 
 #[starknet::interface]
 trait INftWallet<TContractState> {
     fn increase_balance(ref self: TContractState, amount: felt252);
     fn get_balance(self: @TContractState) -> felt252;
-<<<<<<< HEAD
-    fn create_wallet;
-    fn get_user_Wallets();
-    fn get_walletDetails();
-    fn transfer_wallet;
-=======
     fn create_wallet(ref self: TContractState, tokenUri: felt252) -> ContractAddress;
     fn get_user_Wallets(self: @TContractState, user: ContractAddress) -> Array<u256>;
-    fn get_walletDetails(self @TContractState, walletId: u256) -> walletData;
+    fn get_walletDetails(self: @TContractState, walletId: u256) -> walletData;
     fn transfer_wallet(ref self: TContractState,  walletID: u256, receiver: ContractAddress);
->>>>>>> 242d6ebce3fd37a728aae4b782a6348f78c32420
 }
 
 #[starknet::contract]
 mod NftWallet {
     use diverse::interfaces::IERC721::{IERC721DispatcherTrait, IERC721Dispatcher};
     use diverse::interfaces::IRegistry::{IRegistryTrait, IRegistryDispatcher}
-<<<<<<< HEAD
-=======
     use super::{class_hash, walletData};
     use starknet::{get_caller_address, get_contract_address, info::get_block_timestamp, ArrayTrait, ContractAddress};
     use zeroable::Zeroable;
->>>>>>> 242d6ebce3fd37a728aae4b782a6348f78c32420
 
     #[storage]
     struct Storage {
         balance: felt252, 
         acct_class_hash: felt252,
-<<<<<<< HEAD
-        total_accounts: u256,
-        users_accounts: Array<u256>.
-        walletData: LegacyMap<u256, walletData>,
-    }
-
-    struct walletData {
-        walletId: u256,
-        creationTime: u256,
-        creatorAddress: ContractAddress,
-        current_owner: u256,
-        allOwners: Array<ContractAddress>
-=======
         registryContract: IRegistryDispatcher,
         total_accounts: u256,
         users_accounts: LegacyMap<ContractAddress, Array<u256>>.
@@ -75,20 +48,10 @@ mod NftWallet {
         self.acct_class_hash.write((account_hash).tryInto().unwrap());
         self.registryContract.write(IRegistryDispatcher { contract_address: registryContract });
         self.NftContract.write(IERC721Dispatcher { contract_address: NftContract });
->>>>>>> 242d6ebce3fd37a728aae4b782a6348f78c32420
     }
 
     #[abi(embed_v0)]
     impl HelloStarknetImpl of super::IHelloStarknet<ContractState> {
-<<<<<<< HEAD
-        fn increase_balance(ref self: ContractState, amount: felt252) {
-            assert(amount != 0, 'Amount cannot be 0');
-            self.balance.write(self.balance.read() + amount);
-        }
-
-        fn get_balance(self: @ContractState) -> felt252 {
-            self.balance.read()
-=======
 
         fn create_wallet(ref self: @ContractState, tokenUri: felt252) -> ContractAddress {
             self.NftContract.read().mint(get_caller_address(), self.total_accounts.read(), tokenUri)
@@ -177,7 +140,6 @@ mod NftWallet {
                 i = i + 1;               
             }
             return (found, index);
->>>>>>> 242d6ebce3fd37a728aae4b782a6348f78c32420
         }
     }
 }
