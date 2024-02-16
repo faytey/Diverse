@@ -6,6 +6,7 @@ use starknet::ContractAddress;
         fromToken: ContractAddress,
         toToken: ContractAddress,
         exchangeAmount: u256,
+        amountReceived: u256,
     }
 
 #[starknet::interface]
@@ -14,6 +15,8 @@ trait ISwapp<TContractState> {
     fn swapSingleToken(ref self: TContractState, spendToken: ContractAddress, receiveToken: ContractAddress, amount: u256) -> bool;
     fn getSwapHistory(self: @TContractState, userAddress: ContractAddress) -> Array::<u256>;
     fn getSwapDetails(self: @TContractState, swapId: u256) -> Array::<exchangeRecord>;
+    fn updateRouter(ref self: TContractState, router: ContractAddress);
+    fn viewRouter(self: @TContractState) -> ContractAddress;
 }
 
 
@@ -36,13 +39,15 @@ mod Swapp {
         userTransactions: LegacyMap::<(ContractAddress, u256), u256>,
         noOfTransactions: LegacyMap::<u256, u256>,
         transactionsData: LegacyMap::<(u256, u256), exchangeRecord>,
-        router: IJediSwapV2SwapRouterDispatcher
+        router: IJediSwapV2SwapRouterDispatcher,
+        admin: ContractAddress,
 
     }
 
     #[constructor]
     fn constructor(ref self: ContractState, routerContract: ContractAddress) {
         self.router.write(IJediSwapV2SwapRouterDispatcher{contract_address: routerContract});
+        self.admin.write(get_caller_address());
     }
 
     #[abi(embed_v0)]
@@ -56,11 +61,15 @@ mod Swapp {
             self.allTransactions.write(totalTransaction);
             let user = get_caller_address();
 
+            let newTx = self._buildTxRequest(spendToken, receiveToken, amount);
+            let amountReceived = self.router.read().exact_input_single(newTx);
+
             let newRecord = exchangeRecord {
                 transactionId: totalTransaction,
                 fromToken: spendToken,
                 toToken: receiveToken,
                 exchangeAmount: amount,
+                amountReceived
             };
 
             let userTxCount = self.userTransactionCount.read(user);
@@ -83,16 +92,25 @@ mod Swapp {
                 if i >= spendTokens.len().into(){
                     break;
                 }
-                // let hasSufficientBall = self._confirmBalance(get_caller_address(), *spendTokens.at(i), *spendAmount.at(i));
-                // assert(hasSufficientBall, 'insufficient balance');
-                // let hasSufficientAllowance = @self._confirmAllowance(user, *spendTokens.at(i), *spendAmount.at(i));
-                // assert(hasSufficientAllowance, 'insufficient Allowance');
+
+                let newTx = ExactInputSingleParams {
+                    token_in: *spendTokens.at(i),
+                    token_out: receiveToken,
+                    fee: (*spendAmount.at(i) / 100).try_into().unwrap(),
+                    recipient: get_caller_address(),
+                    deadline: get_block_timestamp() +  100,
+                    amount_in: *spendAmount.at(i) - (*spendAmount.at(i) / 100),
+                    amount_out_minimum: 0,
+                    sqrt_price_limit_X96: 0
+                };
+                let amountReceived = self.router.read().exact_input_single(newTx);
 
                 let newRecord = exchangeRecord {
                     transactionId: totalTransaction,
                     fromToken: *spendTokens.at(i),
                     toToken: receiveToken,
                     exchangeAmount: *spendAmount.at(i),
+                    amountReceived
                 };
 
                 self.transactionsData.write((totalTransaction, i.into()), newRecord);
@@ -136,7 +154,19 @@ mod Swapp {
                 swapDetails.append(self.transactionsData.read((swapId, i)));
             };
             return swapDetails;
-        }        
+        }
+
+        fn updateRouter(ref self: ContractState, router: ContractAddress) {
+            let caller = get_caller_address();
+            assert(caller == self.admin.read(), 'UnAuthorized caller');
+            self.router.write(IJediSwapV2SwapRouterDispatcher{contract_address: router});
+        }
+
+        fn viewRouter(self: @ContractState) -> ContractAddress {
+            return self.router.read().contract_address;
+        }
+
+
 
     }
 
@@ -160,7 +190,7 @@ mod Swapp {
             let newTx = ExactInputSingleParams {
                 token_in: tokenIn,
                 token_out: tokenOut,
-                fee: (amount / 100),
+                fee: (amount / 100).try_into().unwrap(),
                 recipient: get_caller_address(),
                 deadline: get_block_timestamp() +  100,
                 amount_in: amount - (amount / 100),
