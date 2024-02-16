@@ -22,8 +22,15 @@ trait ISwapp<TContractState> {
 
 #[starknet::contract]
 mod Swapp {
-    use starknet::{get_caller_address, get_contract_address, info::get_block_timestamp, ArrayTrait, ContractAddress};
-    use diverse::interfaces::IERC20::{IERC20Dispatcher, IERC20DispatcherTrait};
+    use core::traits::Into;
+    use starknet::{get_caller_address, get_contract_address, info::get_block_timestamp, ContractAddress};
+    use diverse::IERC20::{IERC20Dispatcher, IERC20DispatcherTrait};
+    use diverse::IJediswapp::{IJediSwapV2SwapRouterDispatcher, IJediSwapV2SwapRouterDispatcherTrait, ExactInputSingleParams};
+    use super::exchangeRecord;
+    use core::option::OptionTrait;
+    use core::traits::TryInto;
+    use core::dict::Felt252DictEntryTrait;
+    use core::array::ArrayTrait;
 
     #[storage]
     struct Storage {
