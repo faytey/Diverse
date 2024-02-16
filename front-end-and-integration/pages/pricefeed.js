@@ -1,4 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { Contract, RpcProvider } from "starknet";
+import feed from "../utils/feedAbi.json";
+import { connect, disconnect } from "get-starknet";
+import Header from "@/components/header";
+import Footer from "@/components/footer";
 
 const pricefeed = () => {
   const [connection, setConnection] = useState("");
@@ -11,40 +16,6 @@ const pricefeed = () => {
   const [feedFive, setFeedFive] = useState("");
   const [feedSix, setFeedSix] = useState("");
   const [feedSeven, setFeedSeven] = useState("");
-
-  useEffect(() => {
-    const starknetConnect = async () => {
-      const connection = await connect({
-        modalMode: "neverAsk",
-        webWalletUrl: "https://web.argent.xyz",
-      });
-      if (connection && connection.isConnected) {
-        setConnection(connection);
-        setAccount(connection.account);
-        setAddress(connection.selectedAddress);
-      }
-    };
-    starknetConnect();
-  }, []);
-
-  const connectWallet = async () => {
-    const connection = await connect({
-      webWalletUrl: "https://web.argent.xyz",
-    });
-
-    if (connection && connection.isConnected) {
-      setConnection(connection);
-      setAccount(connection.account);
-      setAddress(connection.selectedAddress);
-    }
-  };
-
-  const disconnectWallet = async () => {
-    await disconnect();
-    setConnection(undefined);
-    setAccount(undefined);
-    setAddress("");
-  };
 
   const provider = new RpcProvider({
     nodeUrl: process.env.NEXT_PUBLIC_RPC,
@@ -125,41 +96,21 @@ const pricefeed = () => {
     }
   };
   return (
-    <main className="flex flex-col items-center justify-between p-8">
-      <div className=" text-yellow-50 flex flex-col md:flex-row gap-2 md:gap-4 items-center pt-4 px-[2em] justify-between w-full">
-        <p className="font-bold text-2xl">TOKENFLOW</p>
-        <p className="text-xl font-semibold font-mono shadow-md p-2 m-2">
-          {address}
-        </p>
-        {connection ? (
-          <button
-            className="border rounded-lg shadow-md border-black bg-white text-purple-950 py-2 px-4 mb-2"
-            onClick={disconnectWallet}
-          >
-            Disconnect
-          </button>
-        ) : (
-          <button
-            className="border rounded-lg shadow-md border-black bg-white text-purple-950 py-2 px-4 mb-2"
-            onClick={connectWallet}
-          >
-            Connect Wallet
-          </button>
-        )}
-      </div>
-      <div className="flex flex-col gap-8">
-        <div className="flex gap-4 justify-around">
+    <main className="flex flex-col">
+      <Header />
+      <div className="flex flex-row justify-center items-center gap-8 mt-[10em] mb-[10em]">
+        <div className="flex flex-col gap-8 justify-around">
           <div className="border-2 rounded-md py-4 px-8">
             <p onLoad={getBtc()}>BTC/USD {`$${feedOne / 100000000}`}</p>
           </div>
           <div className="border-2 rounded-md py-4 px-8">
             <p onLoad={getEth()}>ETH/USD {`$${feedTwo / 100000000}`}</p>
           </div>
+        </div>
+        <div className="flex flex-col gap-8 justify-around">
           <div className="border-2 rounded-md py-4 px-8">
             <p onLoad={getDoge()}>DOGE/USD {`$${feedThree / 100000000}`}</p>
           </div>
-        </div>
-        <div className="flex gap-4 justify-around">
           <div className="border-2 rounded-md py-4 px-8">
             <p onLoad={getAvax()}>AVAX/USD {`$${feedFour / 100000000}`}</p>
           </div>
@@ -167,7 +118,7 @@ const pricefeed = () => {
             <p onLoad={getWbtc()}>WBTC/USD {`$${feedFive / 100000000}`}</p>
           </div>
         </div>
-        <div className="flex gap-4 justify-center">
+        <div className="flex flex-col gap-8 justify-around">
           <div className="border-2 rounded-md py-4 px-8">
             <p onLoad={getWsteth()}>WSTETH/USD {`$${feedSix / 100000000}`}</p>
           </div>
@@ -176,6 +127,7 @@ const pricefeed = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </main>
   );
 };
