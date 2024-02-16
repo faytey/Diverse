@@ -42,6 +42,7 @@ use diverse::IRegistry::{IRegistryDispatcherTrait, IRegistryDispatcher};
         walletDataRec: LegacyMap<u256, walletData>,
         user_account_count: LegacyMap<ContractAddress, u256>,
         NftContract: IERC721Dispatcher,
+        NftContractAdd: ContractAddress,
         moderator: ContractAddress,
         NftTotalOwner: LegacyMap<u256, u256>,
         allOwners: LegacyMap<u256, ContractAddress>,
@@ -53,18 +54,20 @@ use diverse::IRegistry::{IRegistryDispatcherTrait, IRegistryDispatcher};
         self.acct_class_hash.write(class_hash_to_felt252(account_hash));
         self.registryContract.write(IRegistryDispatcher { contract_address: registryContract });
         self.NftContract.write(IERC721Dispatcher { contract_address: NftContract });
+        self.NftContractAdd.write(NftContract);
     }
 
     #[abi(embed_v0)]
     impl NftWalletTwo of super::INftWalletTwo<ContractState> {
         fn create_wallet(ref self: ContractState, tokenUri: felt252) -> ContractAddress {
-            self.NftContract.read().mint(get_caller_address(), self.total_accounts.read(), tokenUri);
+            self.NftContract.read().mint(get_contract_address(), self.total_accounts.read() + 1, tokenUri);
             let wallet_address = self.registryContract.read()
                 .create_account(self.acct_class_hash.read(),
-                                self.NftContract.read().contract_address, 
-                                self.total_accounts.read(), 
+                                self.NftContractAdd.read(), 
+                                self.total_accounts.read() + 1, 
                                 self.user_account_count.read(get_caller_address()).try_into().unwrap());
             self.update_storage(get_caller_address(), wallet_address);
+            self._transfer_wallet(self.total_accounts.read(), get_caller_address());
             return wallet_address;
         }
 
@@ -158,6 +161,22 @@ use diverse::IRegistry::{IRegistryDispatcherTrait, IRegistryDispatcher};
             };
             return (found, index);
         }
+
+        fn _transfer_wallet(ref self: ContractState,  walletID: u256, receiver: ContractAddress) {
+            assert(receiver.is_non_zero(), 'ERROR: address zero receiver');
+            self.NftContract.read().transfer_from(get_contract_address(), receiver, walletID);
+            
+            let prevOwner = get_contract_address();
+            let mut walletData = self.walletDataRec.read(walletID);
+            walletData.current_owner = receiver;
+            self.walletDataRec.write(walletID, walletData);
+            self.NftTotalOwner.write(walletID, self.NftTotalOwner.read(walletID) + 1);
+            self.allOwners.write(self.NftTotalOwner.read(walletID), prevOwner);
+            self.users_accounts.write(prevOwner, self.users_accounts.read(receiver) + 1);
+            self.user_acc_Id.write(self.users_accounts.read(prevOwner), walletID);
+            self.user_account_count.write(receiver, self.user_account_count.read(receiver) + 1);
+        }
+
 
     }
 

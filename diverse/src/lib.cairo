@@ -6,3 +6,4 @@ mod IERC20;
 mod NftWalletTwo;
 mod IERC721;
 mod IJediswapp;
+mod Registry;
