@@ -81,7 +81,7 @@ body{background-color: #000;color: #fff;}
  .teaminfo{box-shadow:2px 2px 10px 1px #502}
 
  @media screen and (min-width:1007px) {
-  .homepagedappdiv{background-position-x: -2%; background-position-y: 30%;}
+  .homepagedappdiv{background-position-x: 15%; background-position-y: 30%;}
  }
 
  @media screen and (max-width:1007px) {
@@ -93,7 +93,7 @@ body{background-color: #000;color: #fff;}
  }
 
  @media screen and (max-width:1007px) {
-  .firstsectiondiv{background-position-x: 20%; background-position-y: 30%;}
+  .firstsectiondiv{background-position-x: 15%; background-position-y: 30%;}
  }
 
  @keyframes developersAnimation{0%{} 100%{box-shadow: 2px 2px 8px 4px #502;}}
