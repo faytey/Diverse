@@ -1,0 +1,8 @@
+swapp_class_hash = 0x04f6193b04e21b482bc90c92d5f44607ae5b5451367934868bd12fe77ca5943f;
+NFT_class_hash = 0x07e2398ca0fbaee9f0623e0225914a8b95f4084402f2b00d795f40030fa9a26e;
+NFT_wallet_class_hash = 0x00183309e376ce2c191f04e547fc3ca632636db3e5dc80327b92bd527449e2e5;
+IRefistory_Contract = 0x06938dc18aa14a89a66e6c95e885159b6e70e0a4f33e21c4b9b8f5e8a232ea1d;
+==========================================================================================
+Swapp_contract_address = 0x01dae91d62805033667b91eb325f593aa1de8f236abed1bfb21c354cc308293a;
+NFT_Contract = 0x0245f024ac5c3a9fe2b0037ca38ad972644bd093b1773046bc3bd6083049690d;
+Nft_Wallet = 

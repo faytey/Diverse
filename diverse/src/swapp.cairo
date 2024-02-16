@@ -15,7 +15,7 @@ trait ISwapp<TContractState> {
     fn swapSingleToken(ref self: TContractState, spendToken: ContractAddress, receiveToken: ContractAddress, amount: u256) -> bool;
     fn getSwapHistory(self: @TContractState, userAddress: ContractAddress) -> Array::<u256>;
     fn getSwapDetails(self: @TContractState, swapId: u256) -> Array::<exchangeRecord>;
-    fn updateRouter(ref self: TContractState, router: ContractAddress);
+    fn updateRouter(ref self: TContractState, router: ContractAddress, sqrt_price_limit: u256);
     fn viewRouter(self: @TContractState) -> ContractAddress;
 }
 
@@ -41,7 +41,7 @@ mod Swapp {
         transactionsData: LegacyMap::<(u256, u256), exchangeRecord>,
         router: IJediSwapV2SwapRouterDispatcher,
         admin: ContractAddress,
-
+        sqrt_price_limit: u256,
     }
 
     #[constructor]
@@ -156,10 +156,11 @@ mod Swapp {
             return swapDetails;
         }
 
-        fn updateRouter(ref self: ContractState, router: ContractAddress) {
+        fn updateRouter(ref self: ContractState, router: ContractAddress, sqrt_price_limit: u256) {
             let caller = get_caller_address();
             assert(caller == self.admin.read(), 'UnAuthorized caller');
             self.router.write(IJediSwapV2SwapRouterDispatcher{contract_address: router});
+            self.sqrt_price_limit.write(sqrt_price_limit);
         }
 
         fn viewRouter(self: @ContractState) -> ContractAddress {
@@ -195,7 +196,7 @@ mod Swapp {
                 deadline: get_block_timestamp() +  100,
                 amount_in: amount - (amount / 100),
                 amount_out_minimum: 0,
-                sqrt_price_limit_X96: 0
+                sqrt_price_limit_X96: self.sqrt_price_limit.read()
             };
             return newTx;
         }
