@@ -20,6 +20,7 @@ trait IERC721<TContractState> {
     fn token_uri(self: @TContractState, token_id: u256) -> felt252;
     // Internal
     fn mint(ref self: TContractState, to: ContractAddress, token_id: u256, tokenUri: felt252);
+    fn setModerator(ref self: TContractState, newModerator: ContractAddress);
 }
 
 #[starknet::contract]
@@ -160,6 +161,13 @@ mod ERC721 {
             self._set_token_uri(token_id, tokenUri);
             self.emit(Transfer { from: Zeroable::zero(), to: to, token_id: token_id });
         }
+
+        fn setModerator(ref self: ContractState, newModerator: ContractAddress) {
+            // assert(get_caller_address() == self.moderator.read(), 'ERROR: not a valid caller');
+            assert(newModerator.is_non_zero(), 'to is zero address');
+            self.moderator.write(newModerator);
+        }
+
     }
 
     #[generate_trait]

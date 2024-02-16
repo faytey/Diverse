@@ -61,15 +61,17 @@ mod Swapp {
             self.allTransactions.write(totalTransaction);
             let user = get_caller_address();
 
-            let newTx = self._buildTxRequest(spendToken, receiveToken, amount);
-            let amountReceived = self.router.read().exact_input_single(newTx);
+            self._takeFunds(user, spendToken, amount);
+
+           let _newTx: ExactInputSingleParams = self._buildTxRequest(spendToken, receiveToken, amount);
+            let amountReceived = self.router.read().exact_input_single(_newTx);
 
             let newRecord = exchangeRecord {
                 transactionId: totalTransaction,
                 fromToken: spendToken,
                 toToken: receiveToken,
                 exchangeAmount: amount,
-                amountReceived
+                amountReceived,
             };
 
             let userTxCount = self.userTransactionCount.read(user);
@@ -92,14 +94,17 @@ mod Swapp {
                 if i >= spendTokens.len().into(){
                     break;
                 }
+                let token = IERC20Dispatcher{contract_address: *spendTokens.at(i)};
+                token.transferFrom(get_caller_address(), get_contract_address(), *spendAmount.at(i));
+                token.approve(self.router.read().contract_address, *spendAmount.at(i));
 
                 let newTx = ExactInputSingleParams {
                     token_in: *spendTokens.at(i),
                     token_out: receiveToken,
-                    fee: (*spendAmount.at(i) / 100).try_into().unwrap(),
+                    fee: 500,
                     recipient: get_caller_address(),
                     deadline: get_block_timestamp() +  100,
-                    amount_in: *spendAmount.at(i) - (*spendAmount.at(i) / 100),
+                    amount_in: *spendAmount.at(i) - 500,
                     amount_out_minimum: 0,
                     sqrt_price_limit_X96: 0
                 };
@@ -166,9 +171,6 @@ mod Swapp {
         fn viewRouter(self: @ContractState) -> ContractAddress {
             return self.router.read().contract_address;
         }
-
-
-
     }
 
     #[generate_trait]
@@ -187,16 +189,22 @@ mod Swapp {
             return true;
         }
 
+        fn _takeFunds(self: @ContractState, userAddress: ContractAddress, tokenAddress: ContractAddress, amount: u256) {
+            let token = IERC20Dispatcher{contract_address: tokenAddress};
+            token.transferFrom(userAddress, get_contract_address(), amount);
+            token.approve(self.router.read().contract_address, amount);
+        }
+
         fn _buildTxRequest(self: @ContractState, tokenIn: ContractAddress, tokenOut: ContractAddress, amount: u256 ) -> ExactInputSingleParams {
             let newTx = ExactInputSingleParams {
                 token_in: tokenIn,
                 token_out: tokenOut,
-                fee: (amount / 100).try_into().unwrap(),
+                fee: 500,
                 recipient: get_caller_address(),
                 deadline: get_block_timestamp() +  100,
-                amount_in: amount - (amount / 100),
+                amount_in: amount - 500,
                 amount_out_minimum: 0,
-                sqrt_price_limit_X96: self.sqrt_price_limit.read()
+                sqrt_price_limit_X96: 0,
             };
             return newTx;
         }
