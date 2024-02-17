@@ -1,4 +1,4 @@
-# Diverse: Multi-functional DeFi Project on Starknet
+# Diverse: Multi-functional DeFi Project on Starknet [Web Application](https://diverseprotocol.vercel.app)
 
 Diverse is a comprehensive DeFi project built on Starknet, offering a one-stop solution for various DeFi utilities. It encompasses a token swap with multi-token support, a lending and staking pool manager, a price feed section, and an NFT account manager.
 
