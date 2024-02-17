@@ -67,4 +67,4 @@ The PRAGMA Oracle provides real-time price feeds to users within Diverse. With t
 
 - [Patrick Ominisan](https://github.com/mrpatrick030) - Blockchain Engineer (Telegram @mrpatrick030)
 - [Faith M. Roberts](https://github.com/faytey) - Smart Contract Engineer (Telegram @faithia7)
-- [Idogwu Chinonso](https://github.com/Nonnyjoe) - Smart Contract Engineer (Telegram @chinonso_I)
+- [Idogwu Chinonso](https://github.com/Nonnyjoe) - Smart Contract Engineer (Telegram @chinonso_I) 

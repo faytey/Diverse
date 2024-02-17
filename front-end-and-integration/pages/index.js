@@ -110,10 +110,10 @@ export default function Home(){
         <div className='text-[130%] mt-[3%] text-[#eee] font-[500]'>Tools for concentrated liquidity providers</div>
         <Link href="/dapp"><button className='mt-[3%] rounded-md bg-[#111] px-[0.3cm] py-[0.2cm] text-[#fff] generalbutton3' style={{border:"2px solid #502"}}>Access dApp</button></Link>
         </div>
-        <div className='grid-cols-1 h-[5cm] rounded-xl p-[0.5cm]' style={{backgroundImage:"url(images/nimbora.png)", backgroundPositionY:"40%", backgroundSize:"120%", boxShadow:"2px 2px 10px 1px #502"}}>
-        <div className='text-[120%] text-[#fff] font-[600]'>Nimbora</div>
-        <div className='text-[130%] mt-[3%] text-[#eee] font-[500]'>Handle thousands of transactions in one click</div>
-        <Link href="/dapp"><button className='mt-[3%] rounded-md bg-[#111] px-[0.3cm] py-[0.2cm] text-[#fff] generalbutton3' style={{border:"2px solid #502"}}>Visit dApp</button></Link>
+        <div className='grid-cols-1 h-[5cm] rounded-xl p-[0.5cm]' style={{backgroundImage:"url(images/pragma.jpg)", backgroundPositionY:"40%", backgroundSize:"100%", boxShadow:"2px 2px 10px 1px #502"}}>
+        <div className='text-[120%] text-[#fff] font-[600]'>Pragma</div>
+        <div className='text-[130%] mt-[3%] text-[#eee] font-[500]'>Live price feeds on StarkNet</div>
+        <Link href="/pricefeed"><button className='mt-[3%] rounded-md bg-[#111] px-[0.3cm] py-[0.2cm] text-[#fff] generalbutton3' style={{border:"2px solid #502"}}>Visit page</button></Link>
         </div>
         </div>
       </div>
