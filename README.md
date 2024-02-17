@@ -24,9 +24,9 @@ Braavos integration enriches the user experience within Diverse by facilitating 
 
 Argent wallet integration enhances the user experience within Diverse by providing seamless wallet connectivity. Users can connect their Argent wallets to Diverse, enabling them to access and manage their assets with ease. The integration with Argent wallet offers users a secure and convenient way to interact with the platform.
 
-### Nimbura
+### Nimbora
 
-Nimbura is leveraged in Diverse to provide staking and lending options to users. Through Nimbura, users can stake their assets to earn rewards or participate in lending pools to earn interest. The integration with Nimbura expands liquidity and DeFi opportunities within the platform, empowering users to maximize their returns on investment.
+Nimbora is leveraged in Diverse to provide staking and lending options to users. Through Nimbora, users can stake their assets to earn rewards or participate in lending pools to earn interest. The integration with Nimbora expands liquidity and DeFi opportunities within the platform, empowering users to maximize their returns on investment.
 
 ## Deployed Contracts:
 
