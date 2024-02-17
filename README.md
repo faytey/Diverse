@@ -62,3 +62,9 @@ The ERC-6551 Wallet Manager contract manages NFT-based wallets within Diverse. U
 The PRAGMA Oracle provides real-time price feeds to users within Diverse. With the PRAGMA Oracle, users can access accurate and up-to-date price information for various tokens, enhancing their trading decisions and overall user experience.
 
 - PriceFeed Contract: [View on Voyager](https://goerli.voyager.online/contract/0x01b2bd8f05940bf95f2eae9a02fcd8f283c02ace54e9af68670349c3f16d4d55)
+
+### Contributors
+
+- [Patrick Ominisan](https://github.com/mrpatrick030) - Blockchain Engineer (Telegram @mrpatrick030)
+- [Faith M. Roberts](https://github.com/faytey) - Smart Contract Engineer (Telegram @faithia7)
+- [Idogwu Chinonso](https://github.com/Nonnyjoe) - Smart Contract Engineer (Telegram @chinonso_I)

@@ -102,6 +102,9 @@ body{background-color: #000;color: #fff;}
  @keyframes dAppAnimation{0%{} 100%{box-shadow: 2px 2px 7px 4px #502;}}
  .dAppdivs{animation: dAppAnimation 2s alternate infinite;}
 
+ @keyframes pricefeedAnimation{0%{} 100%{box-shadow: 2px 2px 7px 4px #fff;}}
+ .pricefeeddivs{animation: pricefeedAnimation 2s alternate infinite;}
+
  @keyframes blurAnimation1 {0%{transform: translate3d(0, -20px, -40px)} 40%{filter: blur(5px);} 55%{transform: translate3d(0, 20px, 0)} 75%{ transform: scale3d(1.2,1.2,1.2)} 100%{transform: translate3d(20px, 0px, 0)}}
  @keyframes blurAnimation2 {0%{transform: translate3d(-40px, -15px, -40px)} 35%{transform: translate3d(30px, 75px, 0)} 65%{ transform: scale3d(1.2,1.2,1.2)} 85%{transform: translate3d(40px, -20px, 0)} 100%{filter: blur(5px);}}
  .blurimage1{transition: 0.5s ease-in-out; filter: blur(10px); animation: blurAnimation1 10s alternate infinite;}
