@@ -56,31 +56,27 @@ export default function Home(){
    <div className='text-center text-[180%] lg:text-[300%] md:text-[250%] pt-[1.5cm] font-[500]'>Mass adoption of StarkNet-based technologies</div>
    <div className='mt-[1cm] text-center lg:text-[140%] text-[120%] lg:mx-[20%] md:mx-[10%] mx-[5%] p-[1cm] lg:px-[2cm] text-[#ccc] bg-[rgba(0,0,0,0.9)]' style={{border:"1px solid #502"}}>
     <div data-aos="fade-in" className='info1' style={{transition:"0.5s ease-in-out"}}>
-    AVNU decentralised exchange protocol to empower traders and dApps with the finest execution and an unparalleled user experience that sets the standard for the industry. 
-      Designed to deliver the best execution and provide liquidity infrastructure.
-    </div>
-    <div data-aos="fade-in" className='info2' style={{transition:"0.5s ease-in-out"}}>
     ArgentX - Using the open-source, audited ArgentX wallet, you may explore the Starknet ecosystem while benefiting from improved security features like multisig, 
       real-time fraud monitoring, and 2FA. Your assets are only accessible to you. <br></br>
       Braavos - Asset management for self-custodial use is now simpler than ever with Braavos Smart Wallet for Starknet! You can manage your assets from within your browser 
       and safely access decentralised applications on Starknet with Braavos.
     </div>
-    <div data-aos="fade-in" className='info3' style={{transition:"0.5s ease-in-out"}}>JediSwap - Creating tools and applications with StarkNet's largest community-driven crypto project. Quick tutorials, documentation, an open source platform, and a Javascript SDK are provided at first.
+    <div data-aos="fade-in" className='info2' style={{transition:"0.5s ease-in-out"}}>
+    JediSwap - Creating tools and applications with StarkNet's largest community-driven crypto project. Quick tutorials, documentation, an open source platform, and a Javascript SDK are provided at first.
     </div>
-    <div data-aos="fade-in" className='info4' style={{transition:"0.5s ease-in-out"}}>Nimbora - Using Zero Knowledge Rollups, thousands of transactions can be handled in one batch of processing. By offering validity proofs rather 
+    <div data-aos="fade-in" className='info3' style={{transition:"0.5s ease-in-out"}}>Nimbora - Using Zero Knowledge Rollups, thousands of transactions can be handled in one batch of processing. By offering validity proofs rather 
     than publishing full transaction data on the Ethereum blockchain, this can be accomplished.
     gas fee concerns are no longer a concern!  When engaging with your preferred L1 protocols, ZK technology in conjunction with Account Abstraction results in a 
     significant decrease in gas fees.
     </div>
-    <div data-aos="fade-in" className='info5' style={{transition:"0.5s ease-in-out"}}>
-    Herodotus - characterises a storage proof as combining inclusion proofs which verify the existence of data with proofs of computation, which verify the performance of a multi-step workflow to verify 
-    the authenticity of one or more components in a big dataset, such as the entire Ethereum blockchain or a rollup.
+    <div data-aos="fade-in" className='info4' style={{transition:"0.5s ease-in-out"}}>
+    Pragma - Your smart contracts are decentralized, transparent and composable
     </div>
    </div>
    <div className='mt-[1cm] text-center'>
     <Link href="/dapp"><button className='m-[0.2cm] rounded-md bg-[#502] px-[0.3cm] py-[0.2cm] text-[#fff] generalbutton3 ecobutton' style={{border:"2px solid #502"}}>Explore Ecosystem <img src="images/blockchain.png" width="25" className='ml-[0.2cm]' style={{display:"inline-block"}}/></button></Link>
-    <Link href="https://canva.com"><button className='m-[0.2cm] rounded-md bg-[#111] px-[0.3cm] py-[0.2cm] text-[#fff] generalbutton3 docbutton' style={{border:"2px solid #502"}}>Documentation <img src="images/documentation.png" width="25" className='ml-[0.2cm]' style={{display:"inline-block"}}/></button></Link>
-    <Link href="https://github.com"><button className='m-[0.2cm] rounded-md bg-[#111] px-[0.3cm] py-[0.2cm] text-[#fff] generalbutton3 githubbutton' style={{border:"2px solid #502"}}>GitHub <img src="images/github.png" width="25" className='ml-[0.2cm] bg-[#ddd]' style={{display:"inline-block"}}/></button></Link>
+    <Link href="https://github.com/faytey/Diverse"><button className='m-[0.2cm] rounded-md bg-[#111] px-[0.3cm] py-[0.2cm] text-[#fff] generalbutton3 docbutton' style={{border:"2px solid #502"}}>Documentation <img src="images/documentation.png" width="25" className='ml-[0.2cm]' style={{display:"inline-block"}}/></button></Link>
+    <Link href="https://github.com/faytey/Diverse"><button className='m-[0.2cm] rounded-md bg-[#111] px-[0.3cm] py-[0.2cm] text-[#fff] generalbutton3 githubbutton' style={{border:"2px solid #502"}}>GitHub <img src="images/github.png" width="25" className='ml-[0.2cm] bg-[#ddd]' style={{display:"inline-block"}}/></button></Link>
    </div>
    {allowAutoNav ? (<div className='text-center mt-[1cm]'>You will be automatically navigated to the dApp in {count} seconds....</div>) : 
    (<div className='text-center mt-[1cm]'>Automatic navigation cancelled....</div>)}
