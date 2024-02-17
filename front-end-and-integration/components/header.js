@@ -105,9 +105,9 @@ useEffect(() => {
       (<div style={{display:"inline-block"}}>
       <button onClick={(e) => returnEcosystemButton(e)} className='ml-[1cm] menuitems'><span>Ecosystem</span><i className='fa fa-caret-up ml-[0.2cm]'></i></button>
       <div data-aos="fade-down" className='w-[5cm] h-[7.1cm] mt-[0.2cm] rounded-md bg-[rgba(0,30,0,0.95)] p-[0.4cm]' style={{position:"absolute", transition:"0.3s ease-in-out"}}>
-      <Link href="/dapp"><button onClick={(e) => returnEcosystemButton(e)} className='menuitems2 p-[0.2cm] w-[95%] rounded-md bg-[#000] mb-[0.3cm]'>Pragma</button></Link>
       <button onClick={(e) => returnEcosystemButton(e) & connecttheWallet(e)} className='menuitems2 p-[0.2cm] w-[95%] rounded-md bg-[#000] mb-[0.3cm]'>Wallets</button>
       <Link href="/dapp"><button onClick={(e) => returnEcosystemButton(e)} className='menuitems2 p-[0.2cm] w-[95%] rounded-md bg-[#000] mb-[0.5cm]'>JediSwap</button></Link>
+      <Link href="/pricefeed"><button onClick={(e) => returnEcosystemButton(e)} className='menuitems2 p-[0.2cm] w-[95%] rounded-md bg-[#000] mb-[0.3cm]'>Pragma</button></Link>
       <div className='mb-[0.5cm]' style={{borderBottom:"2px solid #aaa"}}></div>
       <Link href="/dapp"><div onClick={(e) => returnEcosystemButton(e)} className='menuitems3 mb-[0.2cm] bg-[#bb0] py-[0.2cm] mx-[-0.4cm]'>Nimbora</div></Link>
       <Link href="/dapp"><div onClick={(e) => returnEcosystemButton(e)} className='menuitems3 mb-[0.5cm] bg-[#002] py-[0.2cm] mx-[-0.4cm] rounded-b-md'>Herodotus</div></Link>
@@ -146,9 +146,9 @@ useEffect(() => {
        (<div>
        <div className='py-[0.5cm] menuitems4' onClick={(e) => returnsmallMenuEcosystemButton(e)}>Ecosystem <i className='fa fa-caret-up ml-[0.2cm] text-[120%]'></i></div>
        <div data-aos="fade-down" className='ml-[0.3cm] bg-[#121]'>
-       <Link href="/dapp" onClick={(e) => changemenubehaviour2(e)}><div className='p-[0.3cm] menuitems3' style={{borderBottom:"2px solid #111"}}>Pragma</div></Link>
        <div className='p-[0.3cm] menuitems3' onClick={(e) => changemenubehaviour2(e) & connecttheWallet(e)} style={{borderBottom:"2px solid #111"}}>Wallets</div>
        <Link href="/dapp" onClick={(e) => changemenubehaviour2(e)}><div className='p-[0.3cm] menuitems3' style={{borderBottom:"2px solid #111"}}>JediSwap</div></Link>
+       <Link href="/pricefeed" onClick={(e) => changemenubehaviour2(e)}><div className='p-[0.3cm] menuitems3' style={{borderBottom:"2px solid #111"}}>Pragma</div></Link>
        <Link href="/dapp" onClick={(e) => changemenubehaviour2(e)}><div className='p-[0.3cm] menuitems3' style={{borderBottom:"2px solid #111"}}>Nimbora</div></Link>
        <Link href="/dapp" onClick={(e) => changemenubehaviour2(e)}><div className='p-[0.3cm] menuitems3'>Herodotus</div></Link>
        </div>

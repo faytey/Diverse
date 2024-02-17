@@ -72,6 +72,9 @@ export default function Home(){
     <div data-aos="fade-in" className='info4' style={{transition:"0.5s ease-in-out"}}>
     Pragma - Your smart contracts are decentralized, transparent and composable
     </div>
+    <div data-aos="fade-in" className='info5' style={{transition:"0.5s ease-in-out"}}>
+    Herodotus - This API allows developers to focus on creating by mutualizing the costs of generating storage proofs and saving them a considerable amount of time.
+    </div>
    </div>
    <div className='mt-[1cm] text-center'>
     <Link href="/dapp"><button className='m-[0.2cm] rounded-md bg-[#502] px-[0.3cm] py-[0.2cm] text-[#fff] generalbutton3 ecobutton' style={{border:"2px solid #502"}}>Explore Ecosystem <img src="images/blockchain.png" width="25" className='ml-[0.2cm]' style={{display:"inline-block"}}/></button></Link>
