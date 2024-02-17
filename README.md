@@ -16,6 +16,10 @@ Diverse incorporates MultiSwapp, utilizing JediSwapp as a liquidity source. Mult
 
 Diverse utilizes the Pragma oracle to provide real-time price feeds to users. With Pragma, users can access up-to-date price information for various tokens, enhancing their trading and investment decisions. The Pragma oracle ensures the accuracy and reliability of price data, contributing to a seamless user experience.
 
+### Braavos
+
+Braavos integration enriches the user experience within Diverse by facilitating seamless wallet connectivity. Users have the option to connect their Braavos wallets to Diverse, empowering them to effortlessly access and manage their assets. This integration with Braavos ensures a secure and convenient means for users to interact with the platform.
+
 ### Argent
 
 Argent wallet integration enhances the user experience within Diverse by providing seamless wallet connectivity. Users can connect their Argent wallets to Diverse, enabling them to access and manage their assets with ease. The integration with Argent wallet offers users a secure and convenient way to interact with the platform.
